@@ -2,8 +2,10 @@ import PostSettings from './postComponents/PostSettings';
 import { useState } from 'react';
 import FastAverageColor from 'fast-average-color'
 import axios from 'axios';
+import { useSelector } from 'react-redux'
 
-function Profile({me, userData, setShetsVisibility, shetsVisibility}) {
+function Profile({userData, setShetsVisibility, shetsVisibility}) {
+    const me = useSelector(state => state.me.me);
     const getName = (authorUsername, firstName, lastName) => {
         if(firstName === "" && lastName === "") return authorUsername;
         if(firstName !== "" && lastName === "") return firstName;

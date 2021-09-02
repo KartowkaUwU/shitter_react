@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
 import PostSettings from './postComponents/PostSettings';
 import { useState } from 'react';
+import { createPortal, render } from 'react-dom';
 import CreatePostForm from './postComponents/CreatePostForm';
 import LBRButtons from './postComponents/LBRButtons';
-
+import { useDispatch } from 'react-redux'
+import { store } from '../../store/index_Reducer'
+import { Provider } from 'react-redux';
+import Overlay from './Overlay';
 function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayImages, me}) {
+    const dispatch = useDispatch();
     const [postP, setPostP] = useState(post);
     const setPostFromChild = (c) => setPostP(c)
     const id = postP.id
@@ -26,10 +31,8 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
         if(firstName === "" && lastName !== "") return lastName;
         if(firstName !== "" && lastName !== "") return firstName + " " + lastName;
     }
-    const [deleted, setDeleted] = useState(false);
     const [beingRedacted, setBeingRedacted] = useState(false);
     const setBeingRedactedFromChild = (c) => setBeingRedacted(c)
-    const setDeletedFromChild = (c) => setDeleted(c)
     const getTime = (datePosted, lastEdited) => {
         function timeSince(date) {
             const seconds = Math.floor((new Date() - date) / 1000);   
@@ -51,9 +54,13 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
     }
   
     const openImage = (imagesBlob, index) => {
-        setOverlayVisibility(true)
-        setOverlayImage(index)
-        setOverlayImages(imagesBlob)
+        dispatch({type : "CHANGE_DATA__OVERLAY", payload : {
+            overlayVisibility : true,
+            overlayImage : index,
+            overlayImages : imagesBlob
+        }})
+        render(<Provider store={store} ><Overlay/> </Provider>, document.getElementById('portal'))
+        //createPortal(<h1>xxx</h1>, document.getElementById('portal'))
     }
 
     const closeSettingsListener = () => {
@@ -79,10 +86,9 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
             default : return "post"
         }
     }
-
     return (
         <>
-            {!deleted ? <div className={colorFunc(postWarningColor)} id={"post_" + id}>
+            <div className={colorFunc(postWarningColor)} id={"post_" + id}>
                 {beingRedacted ? 
                     <>
                         <CreatePostForm idRed={id} beingRedacted={beingRedacted} setBeingRedacted={setBeingRedactedFromChild} 
@@ -123,20 +129,19 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
                                             <button id={"commentBtn_" + id} className="comment_btn">{commentsCount}</button>
                                         </Link>
                                         <button id={"repostBtn_" + id} className="repost_btn">0</button>
-                                        <LBRButtons id={id} isLiked={isLiked} isPost={isPost} likesCount={likesCount} myUsername={me.username} button={0}/>
-                                        <LBRButtons id={id} isBookmarked={isBookmarked} isPost={isPost} myUsername={me.username} button={1}/>
+                                        <LBRButtons id={id} isLiked={isLiked} isPost={isPost} likesCount={likesCount} myUsername={me ? me.username : ""} button={0}/>
+                                        <LBRButtons id={id} isBookmarked={isBookmarked} isPost={isPost} myUsername={me ? me.username : ""} button={1}/>
                                     </div>
                             </div>
                             <button className="postSettingsButton" onClick={e => {e.stopPropagation(); e.preventDefault(); closeSettingsListener(); setSettingVisibility(p => !p)}}>···</button>
                         </div>
                         {settingVisibility ? 
-                            <PostSettings post={isPost} myUsername={me.username} userProfileSettings={false} username={authorUsername} id={id} setDeleted={setDeletedFromChild}
+                            <PostSettings post={isPost} myUsername={me.username} userProfileSettings={false} username={authorUsername} id={id}
                             setBeingRedacted={setBeingRedactedFromChild} setSettingVisibility={setSettingVisibilityFromChild} setColor={setColorFromChild}/>
                         :""}
                     </>
                 }
-            </div> : ""}
-            
+            </div>      
         </>
     )
 }

@@ -1,51 +1,76 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-export default function GetMe(u = null) {
-    const [me, setMe] = useState("");
+export default function GetMe() {
+    const dispatch = useDispatch();
     const access = window.localStorage.getItem("access");
-    if(access) {
-        setInterval(() => {
-            axios({
-                method : 'post',
-                url : '/token/refresh/',
-                data : { 'refresh' : window.localStorage.getItem('refresh') }
-            })
-            .then(res => {window.localStorage.setItem('access', JSON.parse(res.request.response).access)})
-        }, (1000 * 60 * 10))
-    }
     useEffect(() => {
-        const getMeData = async () => {
-            const Me = await getMe();
-            if(Me !== ""){
-                setMe(Me.data)
-                sessionStorage.setItem('me', JSON.stringify(Me.data))
-            }
+        if(access){
+            axios.defaults.headers.common['Authorization'] = "Bearer " + access;
+            getMeData();
+            tokenRefresh()
         }
-        if(access)getMeData()
-    }, [u])
-    const getMe = async () => {
-        if(access) {
-            if(sessionStorage.getItem('me') && u === 1){
-                setMe(JSON.parse(sessionStorage.getItem('me')))
-                return "";
-            }else{
-                try{
-                    const res = await axios.get("/auth/users/me",{});
-                    const me = await res;
-                    return me;
-                }catch(err){
-                    if(JSON.parse(err.request.response).detail === "Given token not valid for any token type"){
-                        window.localStorage.removeItem('access');
-                        window.localStorage.removeItem('refresh');
-                        window.sessionStorage.removeItem('me');
-                        document.location.reload()
-                        return ""
-                    }
-                }
-            }
+    }, [])
+    
+    const getMeData = async () => {
+        const Me = await getMe();
+        if(Me !== ""){
+            dispatch({type : "CHANGE_DATA", payload : Me.data})
         }
-        else setMe("")
     }
-    return {me}
+    const getMe = async () => {
+        try{
+            const res = await axios.get("/auth/users/me",{});
+            const me = await res;
+            return me;
+        }catch(err){
+            if(JSON.parse(err.request.response).detail === "Given token not valid for any token type"){
+                console.log(window.localStorage.getItem('access'))
+                console.log(window.localStorage.getItem('refresh'))
+                alert("token error")
+                window.localStorage.removeItem('access');
+                window.localStorage.removeItem('refresh');
+                dispatch({type : "CLEAR_ME"})
+                document.location.reload()
+                return ""
+            }
+        }
+    }
+    const tokenRefresh = () => {
+        const instance = axios.create();
+        instance.defaults.timeout = 1000 * 60 * 1;
+        instance.interceptors.request.use(
+            config => {
+                return config;
+            },
+            error => {
+                Promise.reject(error)
+            });
+
+        instance.interceptors.response.use((response) => {
+        return response
+        }, function (error) {
+        console.log(error)
+        const originalRequest = error.config;
+        if (error.response.status === 401 && originalRequest.url === 'https://fierce-dusk-92502.herokuapp.com/token/refresh/') {
+            window.location.replace('/login')
+            return Promise.reject(error);
+        }
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            return axios.post('/token/refresh/',
+                {
+                    'refresh' : window.localStorage.getItem('refresh')
+                })
+                .then(res => {
+                    if (res.status === 201) {
+                        window.localStorage.setItem('access', JSON.parse(res.request.response).access)
+                        return axios(originalRequest);
+                    }
+                })
+        }
+        return Promise.reject(error);
+        })
+    }
 }

@@ -4,6 +4,10 @@ header{
     border: 1px solid #EDE9F9;
     overflow: hidden;
     border-right: 1px solid #ffffff;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 3;
 }
 
 header > ul{
@@ -119,6 +123,7 @@ header > ul > li{
     width: 192px;
     margin-top: 33px;
     margin-left: -106px;
+    position: fixed;
 }
 
 #profileDropdown.active{

@@ -338,6 +338,11 @@
     grid-template-rows: 112px 112px;
 }
 
+#posts{
+    margin-left: -16px;
+    width: 608px;
+}
+
 .postSettingsButton{
     min-width: 30px;
     left: 8px;

@@ -71,18 +71,7 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
                     setBeingRedacted(false);
                 }).catch(e => {})
             })
-            .catch(err => {
-                setLoading(false)
-                const res = JSON.parse(err.request.response);
-                console.log(res);
-                console.log(err)
-                setColor(1)
-                if(res.Error === "No 'content' field or no POST request" || err.request.response.includes("Content error")){
-                    setPostWarning("Post must have a content");
-                    return;
-                }
-                setPostWarning("Something went wrong");
-            })
+            .catch(err => { errorCase(err) })
         }
     }
 
@@ -103,19 +92,26 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
             setLoading(false)
             setBeingRedacted(false);
         })
-        .catch(err => {
-            setLoading(false)
-            const res = JSON.parse(err.request.response);
-            console.log(res);
-            console.log(err)
-            setColor(1)
-            if(res.Error === "No 'content' field or no POST request"){
-                post ? setPostWarning("Post must have a content") : setPostWarning("Comment must have a content");
-                return;
-            }
-            setPostWarning("Something went wrong");
-        })
+        .catch(err => { errorCase(err) })
     }
+
+    const errorCase = (err) => {
+        setLoading(false)
+        const res = JSON.parse(err.request.response);
+        console.log(res);
+        console.log(err)
+        setColor(1)
+        if(res.detail === "Post must contain 'content' field" || res.detail === "No 'content' field or no POST request"){
+            post ? setPostWarning("Post must have a content") : setPostWarning("Comment must have a content");
+            return;
+        }
+        if(res.detail === "Too big images uploaded. Maximum size is 2 MB"){
+            setPostWarning(res.detail)
+            return;
+        }
+        setPostWarning("Something went wrong");
+    }
+
     const keyListenerCP = () => {
         function SearchCP(e){
             document.removeEventListener('keydown', SearchCP)
@@ -125,7 +121,7 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
     }
     return (
             <>
-                {me !== "" ? 
+                {me.id !== undefined ? 
                     <>
                         {beingRedacted ? keyListenerCP() : null}
                         <div className="postInner">
