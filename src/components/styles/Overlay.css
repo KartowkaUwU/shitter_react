@@ -7,6 +7,12 @@
     top:0;
 }
 
+#create{
+    width: 608px;
+    min-height: 138px;
+    margin: auto;
+}
+
 #openedImage{
     border-radius: 4px;
     display: flex;

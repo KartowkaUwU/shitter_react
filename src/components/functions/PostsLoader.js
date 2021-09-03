@@ -52,6 +52,8 @@ export default function PostsLoader(startPos, page, setStartPos = null, Username
                     ).values()
                 ]
             }
+            console.log(username)
+            if((page !== prevPage && !"3689".includes(page)) || (username !== prevUser && username !== undefined)) dispatch({type : "CLEAR_POSTS"})
             if(page === 3 || page === 9){
                 if(Username !== null && prevUser !== "" && prevUser !== username){
                     setStartPos(0);

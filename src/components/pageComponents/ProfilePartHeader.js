@@ -2,11 +2,10 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react'; 
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-function ProfilePartHeader() {
+function ProfilePartHeader({me}) {
     const dispatch = useDispatch();
-    const me = useSelector(state => state.me.me);
     const access = window.localStorage.getItem("access");
     if(access) axios.defaults.headers.common['Authorization'] = "Bearer " + access;
 

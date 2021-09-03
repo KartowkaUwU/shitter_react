@@ -16,6 +16,30 @@ function Bookmarks() {
     
     GetMe();
 
+    const setFeed = () => {
+        if(shetsBookmarksVisibility) return (
+            <>
+                <div id="userPageLikes__buttons">
+                    <button onClick={() => setShetsBookmarksVisibility(true)} className={shetsBookmarksVisibility ? "active" : ""}>Shets</button>
+                    <button onClick={() => setShetsBookmarksVisibility(false)} className={!shetsBookmarksVisibility ? "active" : ""}>Replies</button>
+                </div>
+                <div>
+                    <Feed urlNum={5}/>
+                </div>
+            </>
+        )
+        else return (
+            <>
+                <div id="userPageLikes__buttons">
+                    <button onClick={() => setShetsBookmarksVisibility(true)} className={shetsBookmarksVisibility ? "active" : ""}>Shets</button>
+                    <button onClick={() => setShetsBookmarksVisibility(false)} className={!shetsBookmarksVisibility ? "active" : ""}>Replies</button>
+                </div>
+                <div>
+                    <Feed urlNum={13}/>
+                </div>
+            </>
+        )
+    }
     return (me.id !== -1 ?
         <>
             <div id="pageWrapper__Overlay" className={!overlay.overlayVisibility ? "" : "fixed"} style={!overlay.overlayVisibility ? {} : { top: -window.pageYOffset }}>
@@ -25,16 +49,7 @@ function Bookmarks() {
                         <LeftSidebar/>
                         <div id="feed" className="feed_subscriptions"> 
                             <div id="posts">
-                                <div id="userPageLikes__buttons">
-                                    <button onClick={() => setShetsBookmarksVisibility(true)} className={shetsBookmarksVisibility ? "active" : ""}>Shets</button>
-                                    <button onClick={() => setShetsBookmarksVisibility(false)} className={!shetsBookmarksVisibility ? "active" : ""}>Replies</button>
-                                </div>
-                                <div style={shetsBookmarksVisibility ? {} : {display : 'none'}}>
-                                    <Feed urlNum={5}/>
-                                </div>
-                                <div style={!shetsBookmarksVisibility ? {} : {display : 'none'}}> 
-                                    <Feed urlNum={13}/>
-                                </div>
+                                {setFeed()}
                             </div>
                         </div>
                         <RightSidebar />

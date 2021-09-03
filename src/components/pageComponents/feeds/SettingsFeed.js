@@ -27,7 +27,6 @@ function SettingsFeed() {
         const Me = await getMe();
         if(Me !== ""){
             dispatch({type : "CHANGE_DATA", payload : Me.data})
-            console.log(me)
         }
     }
     const getMe = async () => {

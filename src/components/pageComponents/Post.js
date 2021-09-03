@@ -110,7 +110,7 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
                                         {getName(authorUsername, firstName, lastName)}
                                     </Link><span className="tag">@{authorUsername} · {getTime(datePosted, lastEdited)}</span>
                                 </div>
-                                    <div className="postContent" id={"postContent_"+id}>
+                                    <div className="postContent" id={"postContent_"+id} onClick={e => {e.stopPropagation(); e.preventDefault();}}>
                                         {content}
                                     </div>
                                     {isPost ? 

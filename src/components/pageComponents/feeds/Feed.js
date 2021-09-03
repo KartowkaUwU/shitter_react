@@ -37,7 +37,7 @@ function Feed({urlNum}) {
                     <CreatePostForm me={me} post={true} setColor={setColorFromChild}/> 
                 </div> 
             : ""}   
-            <div id="posts" style={document.title === username ? {marginLeft: -16} : {marginLeft: 0}}>
+            <div id="posts" style={document.title === username || document.title === "Bookmarks" ? {marginLeft: -16} : {marginLeft: 0}}>
                 {posts.length === 0 ? <div>Nothing to show</div> : ""}
                 {error ? <div>An error occured. Possible reasons: You've logged in from another device, servers might've gone down. Try logging out and logging back in.</div> : ""}
                 {Array.from(posts).map((post, index) => (

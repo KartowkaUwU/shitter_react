@@ -9,7 +9,6 @@ export default function GetMe() {
         if(access){
             axios.defaults.headers.common['Authorization'] = "Bearer " + access;
             getMeData();
-            tokenRefresh()
         }
     }, [])
     
@@ -36,41 +35,5 @@ export default function GetMe() {
                 return ""
             }
         }
-    }
-    const tokenRefresh = () => {
-        const instance = axios.create();
-        instance.defaults.timeout = 1000 * 60 * 1;
-        instance.interceptors.request.use(
-            config => {
-                return config;
-            },
-            error => {
-                Promise.reject(error)
-            });
-
-        instance.interceptors.response.use((response) => {
-        return response
-        }, function (error) {
-        console.log(error)
-        const originalRequest = error.config;
-        if (error.response.status === 401 && originalRequest.url === 'https://fierce-dusk-92502.herokuapp.com/token/refresh/') {
-            window.location.replace('/login')
-            return Promise.reject(error);
-        }
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-            return axios.post('/token/refresh/',
-                {
-                    'refresh' : window.localStorage.getItem('refresh')
-                })
-                .then(res => {
-                    if (res.status === 201) {
-                        window.localStorage.setItem('access', JSON.parse(res.request.response).access)
-                        return axios(originalRequest);
-                    }
-                })
-        }
-        return Promise.reject(error);
-        })
     }
 }

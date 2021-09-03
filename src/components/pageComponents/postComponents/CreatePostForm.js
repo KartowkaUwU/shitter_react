@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useState, useReducer } from 'react';
-import { Link } from 'react-router-dom';
 
 function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, imagesRed, me, post, postID, parentID, setOverlayImage, setOverlayVisibility, setOverlayImages, setColor, setPost}) {
     const access = window.localStorage.getItem("access");
@@ -130,9 +129,9 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
                             </div>
                             <div className="postBlock">
                                 <div>
-                                    <Link className="Username" to={"/user/" + me.username}>
+                                    <div className="Username">
                                         {getName(me.username, me.first_name, me.last_name)}
-                                    </Link><span className="tag">@{me.username}</span>
+                                    </div><span className="tag">@{me.username}</span>
                                 </div>
                                 <div className="postContent">
                                     <textarea className="newPostInput" placeholder={placeholdersText} value={newPostContent} onChange={val => {setNewPostContent(val.target.value); setPostWarning("")}} onClick={e => {e.stopPropagation(); e.preventDefault();}} maxLength={post ? "400" : "200"} />             

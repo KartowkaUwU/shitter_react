@@ -25,7 +25,7 @@ function PostPage() {
     
 
     PostsLoader(post_id, 6)
-
+    console.log(post)
     const [postWarningColor, setColor] = useState(0);
     const setColorFromChild = (c) => setColor(c)
     const colorFunc = (c) => {
