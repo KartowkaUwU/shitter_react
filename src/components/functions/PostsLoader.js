@@ -19,6 +19,7 @@ export default function PostsLoader(startPos, page, setStartPos = null, Username
     useEffect(() => {
         let cancel;
         let url;
+        if((page !== prevPage && !"3689".includes(page)) || (username !== prevUser && username !== undefined)) dispatch({type : "CLEAR_POSTS"})
         switch(page){
             case 1  :url = "/api/v1/posts/?startpos="+startPos+"&endpos="+(startPos+15)+"&username="+username; break;
             case 2 : url = "/api/v1/posts/?startpos="+startPos+"&endpos="+(startPos+15); break;
@@ -53,7 +54,6 @@ export default function PostsLoader(startPos, page, setStartPos = null, Username
                 ]
             }
             console.log(username)
-            if((page !== prevPage && !"3689".includes(page)) || (username !== prevUser && username !== undefined)) dispatch({type : "CLEAR_POSTS"})
             if(page === 3 || page === 9){
                 if(Username !== null && prevUser !== "" && prevUser !== username){
                     setStartPos(0);

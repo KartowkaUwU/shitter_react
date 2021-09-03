@@ -46,7 +46,7 @@ function Header() {
     return (
         <header>
             <ul>
-                <Link id="Logo" to="/">
+                <Link id="Logo" to="/" onClick={() => window.scrollTo(0,0)}>
                     <img src={logoSVG} alt="img" />
                 </Link>
                 <li id="search">

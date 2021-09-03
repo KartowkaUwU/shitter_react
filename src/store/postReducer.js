@@ -24,6 +24,9 @@ export const postReducer = (state = defaultState, action) => {
         case "DELETE_POST" : return {...state, 
             posts : state.posts.filter(post => post.id !== action.payload)
         }
+        case "ADD_POSTS_AT_FRONT" : return {
+            ...state, posts : action.payload.concat(state.posts)
+        }
 
         case "CLEAR_POSTS" : return {...state, 
             posts : [],

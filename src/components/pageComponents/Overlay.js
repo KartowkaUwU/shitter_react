@@ -21,7 +21,8 @@ function Overlay() {
                     }}>{"<"}</button> : ""}
                     
                     <div id="openedImage">
-                        <img style={{maxWidth : window.innerWidth - 100}} className="openedImage" src={overlay.overlayImages[overlay.overlayImage].image} alt="img" onClick={() => window.open(overlay.overlayImages[overlay.overlayImage].image, '_blank')}></img>
+                        <img style={{maxWidth : window.innerWidth - 100}} className="openedImage" src={overlay.overlayImages[overlay.overlayImage].image ? overlay.overlayImages[overlay.overlayImage].image : overlay.overlayImages[overlay.overlayImage]}
+                        alt="img" onClick={() => window.open(overlay.overlayImages[overlay.overlayImage].image ? overlay.overlayImages[overlay.overlayImage].image : overlay.overlayImages[overlay.overlayImage], '_blank')}></img>
                         <div>{overlay.overlayImage}</div>
                     </div>
                     

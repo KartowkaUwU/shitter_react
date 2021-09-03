@@ -1,7 +1,6 @@
 #feed{
     width: 608px;
     min-height: 220px;
-    margin-left: 16px;
 }
 
 .createPost{
@@ -152,12 +151,13 @@
 }
 
 #showNewPostsButton{
-    height: 56px;
+    min-height: 56px;
     border-radius: 8px;
     text-align: center;
     vertical-align: middle;
     line-height: 56px;
     cursor: pointer;
+    border: none;
 }
 
 #newPostsCounter{
@@ -211,8 +211,9 @@
 .postInner{
     padding: 16px;
     padding-bottom: 0;
-    width: 576px;
+    width: 100%;
     display: flex;
+    position: relative;
 }
 
 .authorAvatarBlock{
@@ -340,18 +341,18 @@
 
 #posts{
     margin-left: -16px;
-    width: 608px;
+    width: 100%;
 }
 
 .postSettingsButton{
     min-width: 30px;
-    left: 8px;
+    right: 16px;
     height: 30px;
     line-height: 30px;
-    position: relative;
+    position: absolute;
     background-color: transparent;
     cursor: pointer;
-    border:none;
+    border: none;
 }
 
 .postSettings{

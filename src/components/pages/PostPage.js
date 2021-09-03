@@ -24,8 +24,7 @@ function PostPage() {
     document.title = "Single Post";
     
 
-    PostsLoader(post_id, 6)
-    console.log(post)
+    const {loading, error, hasMore} = PostsLoader(post_id, 6)
     const [postWarningColor, setColor] = useState(0);
     const setColorFromChild = (c) => setColor(c)
     const colorFunc = (c) => {
@@ -37,7 +36,11 @@ function PostPage() {
             default : return "post"
         }
     }
-    
+    const showText = () => {
+        if(loading) return "Loading..."
+        if(error) return "An error occured. Possible reasons: You've logged in from another device, servers might've gone down. Try logging out and logging back in."
+        if(post.length === 0) return "Something went wrong"
+    } 
     return (
         <>              
             <div id="pageWrapper__Overlay" className={!overlay.overlayVisibility ? "" : "fixed"} style={!overlay.overlayVisibility ? {} : { top: -window.pageYOffset }}>
@@ -46,6 +49,7 @@ function PostPage() {
                     <div id="main">
                         <LeftSidebar/>
                             <div id="feed" className="feed_subscriptions">
+                                {showText()}
                                 {post.id >= 0 ? <>
                                         <div key={"p"+post.id}>  
                                             <div>
@@ -58,7 +62,7 @@ function PostPage() {
                                             : ""}
                                             <CommentsPart isPost={true} me={me}/>
                                         </div>
-                                </> : <div>Something went wrong</div>} 
+                                </> : ""} 
                             </div>
                         {me.id !== -1 ? <RightSidebar /> : ""}
                     </div>

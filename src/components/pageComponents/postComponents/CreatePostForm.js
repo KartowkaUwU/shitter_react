@@ -1,17 +1,18 @@
 import axios from 'axios';
 import { useState, useReducer } from 'react';
+import { useDispatch } from 'react-redux'
+import { render } from 'react-dom';
+import { store } from '../../../store/index_Reducer'
+import { Provider } from 'react-redux';
+import Overlay from '../Overlay';
 
 function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, imagesRed, me, post, postID, parentID, setOverlayImage, setOverlayVisibility, setOverlayImages, setColor, setPost}) {
+    const dispatch = useDispatch()
     const access = window.localStorage.getItem("access");
     if(access) axios.defaults.headers.common['Authorization'] = "Bearer " + access;
     const [newPostContent, setNewPostContent] = useState(content !== undefined ? content : "");
     const [postWarning, setPostWarning] = useState("");
     const smiles = ["🔥", "🤡", "💩", "✋", "👍", "🤜", "🤛", "👏", "👀", "🗿", "🚬"];
-    const placeholdersTexts = ["What's up ?", "You've got something creactive ?", "Boooo, boring !", "Insert your dumb story here",  "Wow, no one cares", 
-        "(:", "Damn, you are actually gonna write something ?", "You could do something productive instead of sitting here", "gg ez",
-        "Are you sure you remember your password ?", "Never gonna give you up...", "*SHOCKING* MONKEY LEARNS TO CODE WITH REACT (GONE WRONG)", "Has anyone seen my GET request ?",
-        "Press Alt + F4 to open admin console", "Interesting fact: snails poop on their food", ""];
-    const placeholdersText = placeholdersTexts[Math.floor(Math.random() * placeholdersTexts.length)]
 
     const [filesArray, setFilesArray] = useState(imagesRed !== undefined ? imagesRed : []);
     const [imagesBlob, setImagesBlob] = useState(imagesRed !== undefined ? imagesRed : []);
@@ -44,9 +45,12 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
     }
 
     const openImage = (imagesBlob, index) => {
-        setOverlayVisibility(true)
-        setOverlayImage(index)
-        setOverlayImages(imagesBlob)
+        dispatch({type : "CHANGE_DATA__OVERLAY", payload : {
+            overlayVisibility : true,
+            overlayImage : index,
+            overlayImages : imagesBlob
+        }})
+        render(<Provider store={store} ><Overlay/> </Provider>, document.getElementById('portal'))
     }
 
     const [loading, setLoading] = useState(false)
@@ -134,7 +138,7 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
                                     </div><span className="tag">@{me.username}</span>
                                 </div>
                                 <div className="postContent">
-                                    <textarea className="newPostInput" placeholder={placeholdersText} value={newPostContent} onChange={val => {setNewPostContent(val.target.value); setPostWarning("")}} onClick={e => {e.stopPropagation(); e.preventDefault();}} maxLength={post ? "400" : "200"} />             
+                                    <textarea className="newPostInput" placeholder="What's up ?" value={newPostContent} onChange={val => {setNewPostContent(val.target.value); setPostWarning("")}} onClick={e => {e.stopPropagation(); e.preventDefault();}} maxLength={post ? "400" : "200"} />             
                                     <button className="smileButton" onClick={e => {e.stopPropagation(); e.preventDefault(); closeSmileListener(); setSmile(p => !p)}}></button>
                                 </div>
                                 {post ? 

@@ -71,6 +71,7 @@ a{
 
 .settings{
     height: 712px;
+    width: 100%;
 }
 
 .post.error,
@@ -86,6 +87,7 @@ a{
 @keyframes blinkCopy { 0%{ background:skyblue; } 100%{ background:white; } }
 .post{   
     cursor: pointer;
+    width: 100%;
 }
 
 #pageWrapper__Overlay.fixed{
@@ -96,7 +98,6 @@ a{
 
 #main{
     display: flex;
-    width: 1024px;
     height: inherit;
     margin-left: calc(50% - 512px);
     margin-top: 16px;
@@ -106,6 +107,7 @@ a{
 #leftSideBar{
     width: 192px;
     height: 142px;
+    margin-right: 16px;
 }
 
 #leftSideBar nav > li{

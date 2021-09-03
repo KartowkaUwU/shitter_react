@@ -140,7 +140,7 @@ function SettingsFeed() {
                         setBio(e.target.value)
                     }} className="settingsForm formInput fat" maxLength="200" /><br />
                 </div>
-                <button className="settingsForm submit" type="submit" onClick={changeSettings}>Save</button>
+                <button id="subSetBut" className="settingsForm submit" type="submit" onClick={changeSettings}>Save</button>
                 </div>
             </div>
         </div>

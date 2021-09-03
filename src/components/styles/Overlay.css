@@ -24,3 +24,141 @@
     background-repeat: no-repeat;
     cursor: pointer;
 }
+@media screen and (max-width: 896px){
+    .RegLogFor{
+        overflow-y: scroll;
+    }
+    #EngageHolder{
+        display: none;
+    }
+    #goBack{
+        left:0;
+    }
+} 
+@media screen and (max-height: 777px){
+    #EngageHolder{
+        display: none;
+    }
+    #goBack{
+        left:0;
+    }
+}
+@media screen and (max-width: 400px) {
+    .submit,
+    .form,
+    .longInput{
+        width: 264px;
+    }
+    .shortInput{
+        width: 122px;
+    }
+    .formInput{
+        margin-top: 6px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .idk__orShit{
+        margin-top: 32px;
+        margin-bottom: 22px;
+    }
+    #goBack{
+        color:transparent
+    }
+}
+@media screen and (max-height: 812px) {
+    .idk__orShit{
+        margin-top: 32px;
+        margin-bottom: 22px;
+    }
+}
+@media screen and (max-height: 640px){
+    .form{
+        margin-top: 75px;
+    }
+}
+
+@media screen and (max-width: 1100px){
+    #feed{
+        max-width: 500px;
+    }
+    #main{
+        margin-left: calc(50% - 458px);
+    }
+    header > ul{
+        width: 924px;
+        margin-left: calc(50% - 458px);
+    }
+    .postContent{
+        max-width: 390px;
+    }
+    .settingsForm.formInput{
+        max-width: 468px;
+    }
+    #subSetBut{
+        margin-left: 414px;
+    }
+}
+@media screen and (max-width: 960px){
+    #main{
+        margin-left: calc(50% - 354px);
+    }
+    header > ul{
+        width: 708px;
+        margin-left: calc(50% - 354px);
+    }
+    #rightSideBar{
+        display: none;
+    }
+}
+@media screen and (max-width: 820px){
+    #feed{
+        max-width: 608px;
+    }
+    .postContent{
+        max-width: 488px;
+    }
+    #main{
+        margin-left: calc(50% - 304px);
+    }
+    header > ul{
+        width: 608px;
+        margin-left: calc(50% - 304px);
+    }
+    #leftSideBar{
+        display: none;
+    }
+    #searchInput{
+        width: 140px;
+    }
+    .settingsForm.formInput{
+        max-width: 576px;
+    }
+    #subSetBut{
+        margin-left: 522px;
+    }
+}
+@media screen and (max-width: 608px){
+    #feed{
+        max-width: 100%;
+    }
+    #main{
+        margin-left: 0;
+        margin-top: 0;
+    }
+    header > ul{
+        width: 608px;
+        margin-left: calc(50% - 304px);
+    }
+    .post{
+        margin-bottom: 0;
+        border-radius: 0;
+        border-bottom: 1px solid #EDE9F9;
+    }
+    #post-create-form{
+        margin-bottom: 16px;
+    }
+    #myProfile{
+        right: 4px;
+    }
+}
