@@ -76,11 +76,11 @@ function Feed({urlNum}) {
             {showNewPostsButton(seconds)}
             {me.id !== -1 && document.title === "Home" ? 
                 <div id="post-create-form" className={postWarningColor === 0 ? "post" : "post error"}>
-                    <CreatePostForm me={me} post={true} setColor={setColorFromChild}/> 
+                    <CreatePostForm me={me} post={true} setColor={setColorFromChild} lastPostID={posts[0] !== undefined ? posts[0]['id'] : 0}/> 
                 </div> 
             : ""}
             <div id="b"></div>
-            <div id="posts" style={document.title === username || document.title === "Bookmarks" ? {marginLeft: -16} : {marginLeft: 0}}>
+            <div id="posts">
                 {showText()}
                 {Array.from(posts).map((post, index) => (
                     <Link key={post.id} to={post.parent === undefined ? "/post/" + post.id : "/comment/" + post.id }>

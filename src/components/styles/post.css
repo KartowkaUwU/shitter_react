@@ -30,6 +30,7 @@
     resize:none;
     overflow: hidden;
     background: transparent;
+    font-size: 16px;
 }
 
 #newPostInput{
@@ -279,6 +280,7 @@
     margin-right: 27px;
     width: 40px;
     height: 40px;
+    font-size: 14px;
 }
 
 .comment_btn.active,
@@ -340,7 +342,6 @@
 }
 
 #posts{
-    margin-left: -16px;
     width: 100%;
 }
 

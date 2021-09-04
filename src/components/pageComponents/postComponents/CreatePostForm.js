@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useState, useReducer } from 'react';
 import { useDispatch } from 'react-redux'
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import { store } from '../../../store/index_Reducer'
 import { Provider } from 'react-redux';
 import Overlay from '../Overlay';
 
-function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, imagesRed, me, post, postID, parentID, setOverlayImage, setOverlayVisibility, setOverlayImages, setColor, setPost}) {
+function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, imagesRed, me, post, postID, parentID, setColor, setPost, lastPostID}) {
     const dispatch = useDispatch()
     const access = window.localStorage.getItem("access");
     if(access) axios.defaults.headers.common['Authorization'] = "Bearer " + access;
@@ -77,7 +77,15 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
             .catch(err => { errorCase(err) })
         }
     }
+    const b = document.getElementById('b')
 
+    const getNewPosts = (i) => {
+        axios.get("/api/v1/posts/?startpos="+0+"&endpos="+i)
+        .then((res) => {
+            unmountComponentAtNode(b)
+            dispatch({type : "ADD_POSTS_AT_FRONT", payload : res.data})
+        })
+    }
     const createPost = () => {
         const formData = new FormData();
         formData.append('content', newPostContent);
@@ -91,18 +99,31 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
         const url = post ? '/api/v1/posts/' : '/api/v1/comments/';
         axios.post(url, formData)
         .then(() => {
-            document.location.reload()
+            if(post){
+                axios.post('/api/v1/posts/listener/', {
+                    'last_id' : lastPostID+''
+                }).then((res) => {
+                    const np = res.data.new_posts;
+                    if (np > 0)
+                        render(
+                            <button id="showNewPostsButton" className="post" onClick={() => getNewPosts(np)}>
+                                View <span id="newPostsCounter">{np}</span> new Shets
+                            </button>, b)
+                })
+                .catch(err => console.log(err.response))
+            }
+            else document.location.reload()
             setLoading(false)
-            setBeingRedacted(false);
+            if(beingRedacted) setBeingRedacted(false);
         })
         .catch(err => { errorCase(err) })
     }
 
     const errorCase = (err) => {
         setLoading(false)
+        console.log(err)
         const res = JSON.parse(err.request.response);
         console.log(res);
-        console.log(err)
         setColor(1)
         if(res.detail === "Post must contain 'content' field" || res.detail === "No 'content' field or no POST request"){
             post ? setPostWarning("Post must have a content") : setPostWarning("Comment must have a content");
@@ -133,9 +154,9 @@ function CreatePostForm({idRed, beingRedacted, setBeingRedacted, content, images
                             </div>
                             <div className="postBlock">
                                 <div>
-                                    <div className="Username">
+                                    <span className="Username">
                                         {getName(me.username, me.first_name, me.last_name)}
-                                    </div><span className="tag">@{me.username}</span>
+                                    </span><span className="tag">@{me.username}</span>
                                 </div>
                                 <div className="postContent">
                                     <textarea className="newPostInput" placeholder="What's up ?" value={newPostContent} onChange={val => {setNewPostContent(val.target.value); setPostWarning("")}} onClick={e => {e.stopPropagation(); e.preventDefault();}} maxLength={post ? "400" : "200"} />             

@@ -24,43 +24,44 @@
     background-repeat: no-repeat;
     cursor: pointer;
 }
+
 @media screen and (max-width: 896px){
     .RegLogFor{
         overflow-y: scroll;
     }
     #EngageHolder{
-        display: none;
+        display: none !important
     }
     #goBack{
-        left:0;
+        left:0 !important
     }
 } 
 @media screen and (max-height: 777px){
     #EngageHolder{
-        display: none;
+        display: none !important
     }
     #goBack{
-        left:0;
+        left:0 !important
     }
 }
 @media screen and (max-width: 400px) {
     .submit,
     .form,
     .longInput{
-        width: 264px;
+        max-width: 264px;
     }
     .shortInput{
-        width: 122px;
+        max-width: 122px;
     }
     .formInput{
-        margin-top: 6px;
+        margin-top: 6px !important
     }
 }
 
 @media screen and (max-width: 375px) {
     .idk__orShit{
-        margin-top: 32px;
-        margin-bottom: 22px;
+        margin-top: 32px!important;
+        margin-bottom: 22px!important;
     }
     #goBack{
         color:transparent
@@ -74,7 +75,7 @@
 }
 @media screen and (max-height: 640px){
     .form{
-        margin-top: 75px;
+        margin-top: 75px !important
     }
 }
 
@@ -106,6 +107,9 @@
     header > ul{
         width: 708px;
         margin-left: calc(50% - 354px);
+    }
+    #signup{
+        right: 0px;
     }
     #rightSideBar{
         display: none;
@@ -139,6 +143,9 @@
     }
 }
 @media screen and (max-width: 608px){
+    .postContent{
+        max-width: calc(100% - 120px);
+    }
     #feed{
         max-width: 100%;
     }
@@ -147,8 +154,7 @@
         margin-top: 0;
     }
     header > ul{
-        width: 608px;
-        margin-left: calc(50% - 304px);
+        width: 100%
     }
     .post{
         margin-bottom: 0;
@@ -160,5 +166,45 @@
     }
     #myProfile{
         right: 4px;
+    }
+    .comment_btn, .other > button{
+        font-size: 86% !important;;
+        padding-left: 30px !important;;
+    }
+    main{
+        font-size: 120% !important;
+        margin-top: 72px;
+    }
+    .comment_btn:before, .other > button:before{
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .newPostInput, #newPostInput{
+        font-size: 92.5%;
+    }
+    #Logo > img{
+        margin-top: 11px !important;
+        width: 125% !important;
+    }
+    header{
+        min-height: 50px;
+    }
+    header > ul > li{
+        margin-top : 8px
+    }
+    #search{
+        margin-left: 40px;
+        font-size: 16px;
+    }
+    a:hover, a:active{
+        background-color: transparent;
+    }
+}
+@media screen and (max-width: 450px){
+    main{
+        font-size: 150% !important;
+    }
+    .newPostInput, #newPostInput{
+        font-size: 105%;
     }
 }

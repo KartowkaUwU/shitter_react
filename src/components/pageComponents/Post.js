@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { store } from '../../store/index_Reducer'
 import { Provider } from 'react-redux';
 import Overlay from './Overlay';
-function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayImages, me}) {
+function Post({post, isPost, me}) {
     const dispatch = useDispatch();
     const [postP, setPostP] = useState(post);
     const setPostFromChild = (c) => setPostP(c)
@@ -50,7 +50,7 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
           }
         const date = timeSince(new Date(new Date(datePosted)))
         const last_edited = timeSince(new Date(new Date(lastEdited)))
-        return (date === last_edited) ? date : date+' (last edited: '+ last_edited +')';
+        return (date === last_edited) ? date : date+' (Edited: '+ last_edited +')';
     }
   
     const openImage = (imagesBlob, index) => {
@@ -93,7 +93,6 @@ function Post({post, isPost, setOverlayVisibility, setOverlayImage, setOverlayIm
                     <>
                         <CreatePostForm idRed={id} beingRedacted={beingRedacted} setBeingRedacted={setBeingRedactedFromChild} 
                         content={content} imagesRed={images} me={me} setPost={setPostFromChild} post={isPost} parentID={null}
-                        setOverlayImage={setOverlayImage} setOverlayVisibility={setOverlayVisibility} setOverlayImages={setOverlayImages}
                         setColor={setColorFromChild}/>
                     </> 
                     :
